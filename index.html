@@ -1564,11 +1564,11 @@ function handleSubmit(e) {
 
   const formData = new FormData(e.target);
   
-  // Додаємо службові поля для FormSubmit
-  formData.append('_captcha', 'false'); // Вимикаємо капчу
-  formData.append('_subject', 'Нова заявка з сайту Ovotrade Zaxid!'); // Тема листа
+  // Додаємо службові поля для Web3Forms
+  formData.append('access_key', '335b5cf9-d0ce-47b3-b7b7-a3cabb2a1732');
+  formData.append('subject', 'Нова заявка з сайту Ovotrade Zaxid!'); // Тема листа
 
-  fetch("https://formsubmit.co/ajax/ovotrade.zaxid@gmail.com", {
+  fetch("https://api.web3forms.com/submit", {
     method: "POST",
     headers: {
       'Accept': 'application/json'
