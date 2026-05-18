@@ -1559,15 +1559,45 @@ function handleSubmit(e) {
   e.preventDefault();
   const btn = e.target.querySelector('.form-submit');
   const original = btn.textContent;
-  btn.textContent = 'Дякуємо! Ми зв'яжемось з вами ✓';
-  btn.style.background = '#2DAE56';
-  btn.style.color = '#FFFFFF';
-  setTimeout(() => {
-    e.target.reset();
-    btn.textContent = original;
-    btn.style.background = '';
-    btn.style.color = '';
-  }, 3000);
+  btn.textContent = 'Надсилання...';
+  btn.disabled = true;
+
+  const formData = new FormData(e.target);
+  
+  // Додаємо службові поля для FormSubmit
+  formData.append('_captcha', 'false'); // Вимикаємо капчу
+  formData.append('_subject', 'Нова заявка з сайту Ovotrade Zaxid!'); // Тема листа
+
+  fetch("https://formsubmit.co/ajax/ovotrade.zaxid@gmail.com", {
+    method: "POST",
+    headers: {
+      'Accept': 'application/json'
+    },
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    btn.textContent = 'Дякуємо! Заявку надіслано ✓';
+    btn.style.background = '#2DAE56';
+    btn.style.color = '#FFFFFF';
+    setTimeout(() => {
+      e.target.reset();
+      btn.textContent = original;
+      btn.style.background = '';
+      btn.style.color = '';
+      btn.disabled = false;
+    }, 4000);
+  })
+  .catch(error => {
+    console.error(error);
+    btn.textContent = 'Помилка. Спробуйте пізніше';
+    btn.style.background = '#E74C3C';
+    setTimeout(() => {
+      btn.textContent = original;
+      btn.style.background = '';
+      btn.disabled = false;
+    }, 4000);
+  });
 }
 </script>
 
